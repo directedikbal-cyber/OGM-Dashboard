@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OGM Dashboard</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0b0709;--card:#120d10;--line:#2a2027;--tx:#f3eaf0;--mut:#9c8f98;--ac:#c9a0bd;--ac2:#6b4a62}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 20% 0%,#2b1a27,var(--bg) 60%);color:var(--tx);font-family:Poppins,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;padding:16px}
+.app{display:grid;grid-template-columns:220px 1fr;gap:16px;max-width:1280px;margin:auto;background:#3a2d36aa;border-radius:24px;padding:14px}
+aside{background:#070405;border-radius:18px;padding:18px 14px;display:flex;flex-direction:column;gap:6px}
+.logo{font-weight:700;font-size:18px;margin-bottom:18px;display:flex;gap:8px;align-items:center}.logo b{background:var(--ac);color:#000;border-radius:8px;padding:2px 8px}
+.nav{padding:10px 12px;border-radius:12px;color:var(--tx);cursor:pointer;font-size:14px;border:0;background:none;text-align:left;font-family:inherit}
+.nav.on{background:linear-gradient(90deg,var(--ac2),#2a1c26)}.nav:hover:not(.on){background:#1a1318}.sp{flex:1}
+main{padding:6px 8px;min-width:0}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+h1{font-size:24px;margin:0}h1 span{color:var(--ac)}.sub{font-size:12px;color:var(--mut)}
+.user{display:flex;align-items:center;gap:10px;font-size:12px}
+.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:grid;place-items:center;font-weight:600;color:#000;font-size:14px;flex:none}
+.row{display:flex;gap:10px;align-items:center;margin:16px 0;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:#000;color:var(--tx);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit}.pill.on{background:var(--ac2)}
+.ask{flex:1;min-width:220px;display:flex;background:#000;border:1px solid var(--line);border-radius:999px;padding:4px 4px 4px 16px}
+.ask input{flex:1;background:none;border:0;color:var(--tx);outline:0;font-family:inherit;font-size:13px;min-width:0}
+.grid{display:grid;grid-template-columns:1fr 1.15fr 1.4fr;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0;margin-bottom:12px}
+.card h3{margin:0 0 12px;font-size:14px;font-weight:500}
+.big{font-size:30px;font-weight:600}
+.btn{background:var(--ac2);color:var(--tx);border:0;border-radius:999px;padding:9px 18px;font-size:12px;cursor:pointer;font-family:inherit}.btn:hover{background:#85607a}
+.btn.sm{padding:4px 10px;background:#2a2027}
+.tag{font-size:11px;padding:3px 9px;border-radius:999px;background:#1d1519}
+.kp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.k{background:#000;border:1px solid var(--line);border-radius:14px;padding:10px;font-size:11px}.k b{display:block;font-size:18px;margin:4px 0}
+.bar{height:5px;background:#2a2027;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+svg{width:100%;height:auto;display:block}
+.pv{display:none}.pv.on{display:block}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px 6px;border-top:1px solid var(--line);text-align:left}th{color:var(--mut);font-weight:500;border:0}
+.empty{color:var(--mut);font-size:12px;padding:10px 0}
+.ai{font-size:13px;line-height:1.5;color:#e8d8e2;display:none;white-space:pre-wrap}.ai.on{display:block}
+.frm{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.frm input,.frm select{background:#000;border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:8px 10px;font-family:inherit;font-size:12px;min-width:0;flex:1 1 120px}
+.drop{border:1px dashed var(--ac2);border-radius:14px;padding:14px;color:var(--mut);font-size:13px;margin-top:10px}
+.login{max-width:380px;margin:12vh auto;text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ac);color:#000;padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;transition:.3s;pointer-events:none}.toast.on{opacity:1}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{flex-direction:row;overflow-x:auto}.logo{margin:0 8px 0 0}.nav{white-space:nowrap}.sp{display:none}.grid{grid-template-columns:1fr}}
+@media print{aside,.row,.noprint,.frm{display:none!important}}
+</style></head><body>
+<div id="login" class="card login"><div class="logo" style="justify-content:center"><b>O</b> OGM</div><h3>Masuk ke OGM</h3><p class="sub" id="lmsg">Menghubungkan akun…</p><button class="btn" onclick="location.reload()">Masuk dengan akun Claude</button></div>
+<div class="app" id="app" style="display:none">
+<aside>
+ <div class="logo"><b>O</b> OGM</div>
+ <button class="nav on" data-v="dash">▣ Dashboard</button><button class="nav" data-v="tugas">☑ Progres Tugas</button><button class="nav" data-v="kpi">◔ KPI Tim</button><button class="nav" data-v="lap">▤ Laporan</button><button class="nav" data-v="sosmed">◎ Sosmed</button><button class="nav" data-v="vid">▶ Performa Video</button>
+ <div class="sp"></div><button class="nav" data-v="set">⚙ Pengaturan</button>
+</aside>
+<main>
+<header><div><h1>Selamat datang, <span id="nm">…</span></h1><div class="sub">Ringkasan performa konten & tim OGM</div></div>
+ <div class="user"><div class="av" id="av"></div><div><span id="un"></span><br><span class="sub" id="ur"></span></div></div></header>
+<div class="row"><div class="ask"><input id="q" placeholder="Tanya OGM.ai: analisa atau ringkasan laporan…" aria-label="Tanya AI"><button class="btn" id="go">Kirim</button></div></div>
+<div class="card ai" id="ai"></div>
+
+<section class="pv on" id="dash">
+<div class="grid"><div><div class="card"><h3>Total Konten Selesai · Bulan Ini</h3><div class="big" id="tot">0</div><div class="sub" id="tgt"></div><div class="bar" style="margin-top:10px"><i id="tb" style="width:0"></i></div></div>
+<div class="card"><h3>Keputusan Berbasis Data</h3><p class="sub">Minta insight AI dari data tim kamu.</p><button class="btn" id="ins">Lihat AI Insights</button></div></div>
+<div class="card"><h3>Deadline Terdekat</h3><div id="dl"></div></div>
+<div class="card"><h3>KPI Anggota Tim</h3><div class="kp" id="kp"></div></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><h3>Performa Engagement</h3><div id="rng"></div></div><div id="ch"></div><div class="frm noprint" id="f-perf"></div></div>
+</section>
+<section class="pv" id="tugas"><div class="card"><h3>Daftar Tugas</h3><div id="tk"></div><div class="frm" id="f-tasks"></div></div></section>
+<section class="pv" id="kpi"><div class="card"><h3>Anggota & Target KPI</h3><div id="kt"></div><div class="frm" id="f-team"></div></div></section>
+<section class="pv" id="lap"><div class="card"><h3>Laporan</h3><div id="rt"></div>
+ <div class="row noprint"><button class="btn" data-ex="pdf">⬇ Ekspor PDF</button><button class="btn" data-ex="xls">⬇ Ekspor Excel</button><button class="btn" data-ex="doc">⬇ Ekspor Word</button></div>
+ <div class="drop">Impor tugas dari CSV (kolom: title,pic,deadline,status)<br><br><input type="file" id="imp" accept=".csv"><div id="files" style="margin-top:8px"></div></div></div></section>
+<section class="pv" id="sosmed"><div class="card"><h3>Akun Sosmed</h3><div id="st"></div><div class="frm" id="f-accounts"></div></div><div class="card"><h3>Jadwal Posting</h3><div id="sj"></div><div class="frm" id="f-posts"></div></div></section>
+<section class="pv" id="vid"><div class="card"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center"><h3>Performa Channel · 90 Hari</h3><div id="vf"></div></div><div class="row noprint" style="margin:8px 0"><button class="btn" id="vsave">💾 Simpan ke Database</button><span class="sub">Data tersimpan permanen dan dibagikan ke semua anggota.</span></div><div class="kp" id="vk"></div></div>
+<div class="card"><h3>Views per Video (urut tanggal publish)</h3><div id="vc"></div></div>
+<div class="card"><h3>Daftar Video</h3><div style="overflow-x:auto" id="vt"></div>
+<div class="drop">Impor CSV performa (kolom: video_id,judul,tipe,tanggal_publish,durasi_detik,views,likes,komentar,engagement_pct,views_per_day)<br><br><input type="file" id="vimp" accept=".csv"></div></div></section>
+<section class="pv" id="set"><div class="card"><h3>Profil & Akses</h3><div id="pf"></div><p class="sub">Pengguna lain diundang lewat tombol Share di claude.ai. Peran (Viewer/Contributor/Editor) menentukan siapa boleh mengubah data.</p></div></section>
+<footer class="sub" style="text-align:center;margin:22px 0 6px">© 2026 OGM · Copyright Ikbal. All rights reserved.</footer>
+</main></div><div class="toast" id="t"></div>
+<script>
+const $=s=>document.querySelector(s),S={team:[],tasks:[],posts:[],accounts:[],perf:[]},M=new Date().toISOString().slice(0,7);
+const ST=["Dikerjakan","Review","Selesai"],PL=["Instagram","TikTok","YouTube","X"];
+const F={team:[["name","Nama"],["role","Peran"],["target","Target konten","number"]],
+tasks:[["title","Judul tugas"],["pic","PIC (nama anggota)"],["deadline","","date"],["status","",ST]],
+posts:[["date","","date"],["platform","",PL],["title","Konten"],["pic","PIC"]],
+accounts:[["platform","",PL],["followers","Followers","number"],["eng","Engagement %","number"]],
+perf:[["date","","date"],["value","Engagement (angka)","number"]]};
+const TT={team:"Anggota",tasks:"Tugas",posts:"Jadwal",accounts:"Akun",perf:"Data engagement"};
+let db;const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("#t");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2400)}
+function buildForms(){for(const c in F){$("#f-"+c).innerHTML=F[c].map(([k,p,t])=>Array.isArray(t)?`<select id="${c}_${k}">${t.map(o=>`<option>${o}</option>`).join("")}</select>`:`<input id="${c}_${k}" placeholder="${p}" type="${t||"text"}" ${t?'title="'+(p||k)+'"':""}>`).join("")+`<button class="btn" data-add="${c}">+ Tambah ${TT[c]}</button>`}}
+document.addEventListener("click",async e=>{const c=e.target.dataset.add,d=e.target.dataset.del;
+ try{if(c){const o={};for(const[k,,t]of F[c]){let v=$(`#${c}_${k}`).value;o[k]=t==="number"?Number(v):v;if(v===""){toast("Lengkapi semua kolom");return}}await db.collection(c).add(o);F[c].forEach(([k])=>{const i=$(`#${c}_${k}`);if(i.tagName=="INPUT")i.value=""});toast("Tersimpan")}
+ if(d){const[cc,id]=d.split("/");await db.doc(cc+"/"+id).delete()}}catch(x){toast("Gagal menyimpan: "+(x.code||"izin?"))}});
+const tbl=(c,h,fn)=>S[c].length?`<table><tr>${h.map(x=>`<th>${x}</th>`).join("")}<th></th></tr>${S[c].map(r=>`<tr>${fn(r).map(x=>`<td>${x}</td>`).join("")}<td><button class="btn sm" data-del="${c}/${r.id}">Hapus</button></td></tr>`).join("")}</table>`:`<div class="empty">Belum ada data. Tambahkan lewat form di bawah.</div>`;
+const done=n=>S.tasks.filter(t=>t.pic==n&&t.status=="Selesai").length;
+let rg=365;
+function render(){
+ const sel=S.tasks.filter(t=>t.status=="Selesai"&&(t.deadline||"").startsWith(M)).length,tg=S.team.reduce((a,p)=>a+(p.target||0),0);
+ $("#tot").textContent=sel;$("#tgt").textContent=tg?`dari target ${tg}`:"Target belum diisi";$("#tb").style.width=tg?Math.min(100,sel/tg*100)+"%":"0";
+ const up=S.tasks.filter(t=>t.status!="Selesai").sort((a,b)=>a.deadline>b.deadline?1:-1).slice(0,5);
+ $("#dl").innerHTML=up.length?up.map(t=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);font-size:12px"><span>${esc(t.pic)}<br><span class="sub">${esc(t.title)}</span></span><span class="tag">${esc(t.deadline)}</span></div>`).join(""):'<div class="empty">Belum ada deadline.</div>';
+ $("#kp").innerHTML=S.team.length?S.team.map(p=>{const k=p.target?Math.min(100,Math.round(done(p.name)/p.target*100)):0;return`<div class="k">${esc(p.name)} · ${esc(p.role)}<b>${k}%</b><div class="bar"><i style="width:${k}%"></i></div><div style="margin-top:6px;color:#9c8f98">${done(p.name)}/${p.target} konten</div></div>`}).join(""):'<div class="empty">Belum ada anggota.</div>';
+ $("#tk").innerHTML=tbl("tasks",["Tugas","PIC","Deadline","Status"],t=>[esc(t.title),esc(t.pic),esc(t.deadline),`<span class="tag">${esc(t.status)}</span>`]);
+ $("#kt").innerHTML=tbl("team",["Nama","Peran","Target","Selesai","Progres"],p=>[esc(p.name),esc(p.role),p.target,done(p.name),`<div class="bar"><i style="width:${p.target?Math.min(100,done(p.name)/p.target*100):0}%"></i></div>`]);
+ $("#st").innerHTML=tbl("accounts",["Platform","Followers","Engagement"],a=>[esc(a.platform),a.followers,a.eng+"%"]);
+ $("#sj").innerHTML=tbl("posts",["Tanggal","Platform","Konten","PIC"],p=>[esc(p.date),esc(p.platform),esc(p.title),esc(p.pic)]);
+ const fol=S.accounts.reduce((a,x)=>a+(x.followers||0),0);
+ $("#rt").innerHTML=`<table><tr><th>Metrik</th><th>Nilai</th></tr><tr><td>Total tugas</td><td>${S.tasks.length}</td></tr><tr><td>Selesai bulan ini</td><td>${sel}</td></tr><tr><td>Anggota tim</td><td>${S.team.length}</td></tr><tr><td>Total followers</td><td>${fol}</td></tr></table>`;
+ $("#pf").innerHTML=`<table><tr><td>Nama</td><td>${esc(me.name)}</td></tr><tr><td>Email</td><td>${esc(me.email||"-")}</td></tr><tr><td>Peran</td><td>${me.canEdit?"Editor/Admin":"Anggota"}</td></tr></table>`;
+ draw()}
+function draw(){const now=Date.now(),d=S.perf.filter(p=>now-new Date(p.date)<=rg*864e5+864e5).sort((a,b)=>a.date>b.date?1:-1);
+ if(d.length<2){$("#ch").innerHTML='<div class="empty">Isi minimal 2 data engagement (tanggal + angka) untuk menampilkan grafik.</div>';return}
+ const W=900,H=240,m=40,mx=Math.max(...d.map(p=>p.value))*1.1||1,x=i=>m+i*(W-m-10)/(d.length-1),y=v=>H-24-(v/mx)*(H-44),p=d.map((q,i)=>(i?"L":"M")+x(i)+" "+y(q.value)).join(" "),l=d.length-1;
+ $("#ch").innerHTML=`<svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9a0bd" stop-opacity=".35"/><stop offset="1" stop-color="#c9a0bd" stop-opacity="0"/></linearGradient></defs>${[0,.5,1].map(f=>`<line x1="${m}" x2="${W-10}" y1="${y(mx*f)}" y2="${y(mx*f)}" stroke="#2a2027"/><text x="0" y="${y(mx*f)+4}" fill="#9c8f98" font-size="11">${Math.round(mx*f)}</text>`).join("")}<path d="${p} L${x(l)} ${H-24} L${x(0)} ${H-24}Z" fill="url(#g)"/><path d="${p}" fill="none" stroke="#c9a0bd" stroke-width="2.5"/><circle cx="${x(l)}" cy="${y(d[l].value)}" r="6" fill="#f3d6ea"/></svg>`}
+const R={"1D":1,"1W":7,"1M":30,"6M":182,"1Y":365};
+$("#rng").innerHTML=Object.keys(R).map(k=>`<button class="pill ${k=="1Y"?"on":""}" data-r="${k}">${k}</button>`).join(" ");
+$("#rng").onclick=e=>{const k=e.target.dataset.r;if(!k)return;document.querySelectorAll("[data-r]").forEach(b=>b.classList.toggle("on",b==e.target));rg=R[k];draw()};
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("on",x==b));document.querySelectorAll(".pv").forEach(s=>s.classList.toggle("on",s.id==b.dataset.v))});
+// export
+document.querySelectorAll("[data-ex]").forEach(b=>b.onclick=async()=>{const t=b.dataset.ex;if(t=="pdf"){window.print();return}
+ const doc=t=="doc",csv="title,pic,deadline,status\n"+S.tasks.map(x=>[x.title,x.pic,x.deadline,x.status].join(",")).join("\n"),
+ html="<html><body><h1>Laporan OGM</h1>"+$("#rt").innerHTML+"</body></html>",fn="laporan-ogm."+(doc?"doc":"csv");
+ try{const d=await claude.use("downloads");if(!d)throw 0;await d.save({filename:fn,data:new Blob([doc?html:csv],{type:doc?"application/msword":"text/csv"})});toast("Diekspor")}catch(e){toast("Ekspor tidak tersedia")}});
+$("#imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;const L=(await f.text()).split(/\r?\n/).slice(1).filter(Boolean);let n=0;
+ try{for(const l of L){const[a,b,c,d]=l.split(",");if(a){await db.collection("tasks").add({title:a,pic:b||"",deadline:c||"",status:ST.includes(d)?d:"Dikerjakan"});n++}}toast(n+" tugas diimpor")}catch(x){toast("Impor gagal")}};
+// AI
+let busy=0;
+async function ask(q){q=(q||"").trim();if(!q||busy)return;const a=$("#ai");a.classList.add("on");a.textContent="✦ OGM.ai sedang berpikir…";busy=1;
+ try{const sm=await claude.use("sample");if(!sm)throw{code:"na"};await sm("Kamu OGM.ai, asisten dashboard tim konten sosmed. Jawab ringkas dalam Bahasa Indonesia berdasarkan data JSON ini (jika kosong, bilang datanya belum diisi): "+JSON.stringify(S,(k,v)=>k=="id"?undefined:v)+"\n\nPertanyaan: "+q,{cache:false,onText:({text})=>{a.textContent="✦ OGM.ai: "+text}})}
+ catch(e){a.textContent=e.code=="na"?"✦ AI belum tersedia di sini.":"✦ Gagal menjawab ("+(e.code||"error")+")."}busy=0}
+$("#go").onclick=()=>ask($("#q").value);$("#q").onkeydown=e=>{if(e.key=="Enter")ask(e.target.value)};$("#ins").onclick=()=>ask("Berikan 3 insight dan saran dari data tim ini.");
+
+// ===== Performa Video =====
+const VD=[["ORrl25vHUnA","ngajak senior ngonten #viral #trending #shorts #fyp #karyawan #genz #kerjakeras","shorts","2026-07-12",30,18142,104,3,0.57,221.2],["DSzAtvJSMZ4","Ketika lo telat masuk kantor # #trending #viral #funny #shorts #foryou #karyawan #kantor","shorts","2026-08-08",16,8877,39,0,0.44,161.4],["ALLRqiEAv4Y","Gen z di tikung senior #fyp #viral #trending #funny #shorts #genz #kerja","shorts","2026-07-25",8,8215,31,0,0.38,119.1],["oOx894Vi0zo","Ketika lo datang ke kantor kepagian ! #viral #funny #fyp #short #trending #foryou #kantor #genz","shorts","2026-08-10",22,4890,22,0,0.45,92.3],["51GGQWmAmD0","Juara habisin air kantor #viral #funny #fyp #shorts #trending #foryou #karyawan","shorts","2026-08-02",8,4694,18,0,0.38,77.0],["tHfUA6QPoH8","menyambut kemerdekaan #viral #trending #fyp #shorts #funny #foryou #17agustus","shorts","2026-08-22",12,3361,17,0,0.51,82.0],["6CDc3RC9XeQ","BARU SELESAI 1, 5 KERJAAN BARU MASUK! #viral #funny #fyp #short #trending #foryou #karyawan","shorts","2026-08-15",8,2683,12,0,0.45,55.9],["F4VYR0e87z0","Bye kantor, sampai jumpa besok #viral #funny #fyp #shorts #trending #foryou #karyawan","shorts","2026-08-01",5,2659,14,0,0.53,42.9],["cZvVjTSeb-I","KERJA KOMPAK #trending #viral #funny #karyawansukses #officelife #kerjadarirumah #drama #modalkerja","shorts","2026-08-23",9,2422,21,0,0.87,60.5],["TqbGIdLLd0E","pov atass gen z #trending #funny #shorts #fyp #viral #lucu #genz #kerja","shorts","2026-08-03",12,2184,10,0,0.46,36.4],["uR18PdXRfqg","Tarian semut viral #trending #shorts #fyp #karyawan #genz #kerjakeras","shorts","2026-07-18",15,2129,19,0,0.89,28.0],["XrCJSMlUf_I","siapa yang relate juga #viral #funny #fyourpage #shorts #tending #foryou #karyawan","shorts","2026-08-14",12,2003,23,0,1.15,40.9],["lY3GcglNhek","Ketika gen Z telat masuk kerja #fyp #trending #viral #funny #shorts #kerjakeras","shorts","2026-07-27",10,1921,21,1,1.09,28.7],["FDU8GoDmlz0","Rating momen kantor #fyp #viral #trending #shorts #funny #memes #lucu","shorts","2026-07-08",14,1894,18,0,0.95,22.0],["wCfbdnkFXHA","aemngat lembur nya #viral #funny #shorts #fyp #trending #karyawan #genz","shorts","2026-07-11",11,1779,20,0,1.12,21.4],["yN0kMTRwwNI","SEWA VIDEOGRAPHER BUAT SHOOT PRODUK, EH MALAH PAKE MATA GLASSES!","shorts","2026-09-12",10,1714,12,0,0.7,85.7],["ss-msvZeMZk","Buka karna Allah, tutup karna pusing. Siapa relate? #hijab #relatable #islam #short #funny #fyp","shorts","2026-08-07",8,1704,12,0,0.7,30.4],["42GrbMa0K84","MAU BIKIN KONTEN, MALAH PADA RIBUT! #viral #funny #fyp #short #trending #foryou #17agustus","shorts","2026-08-17",9,1653,10,0,0.6,35.9],["InmFSjo3hTg","yang penting tenggo #funny #fyp #short #trending #viral #fyp #foryou #karyawan","shorts","2026-08-09",12,1614,11,0,0.68,29.9],["d6TaCJBcsZs","kalo gini sudah menarik belom #viral #funny #fyp #shorts #trending #foryou #karyawan","shorts","2026-08-24",7,1580,21,0,1.33,40.5],["qTpfOUwzI7I","Gosip era kantor viral #trending #shorts #fyp #karyawan #genz #kerjakeras","shorts","2026-07-20",11,1494,17,1,1.14,20.2],["LxSzX3LUiLE","Jam istirahat? viral #trending #shorts #fyp #karyawan #genz #kerjakeras","shorts","2026-07-19",9,1473,15,0,1.02,19.6],["mbW3lLGLVPU","TEBAK KATA KEMERDEKAAN | Siapa yang Bisa Jawab?!","shorts","2026-09-02",40,1328,15,0,1.13,44.3],["ORL7_sBtZ64","Realisasi jam segini: ternyata circle udah pada sibuk semua","shorts","2026-09-11",7,1253,9,0,0.72,59.7],["3tf7WfZrFxE","Penasaran ?? Rahasia Karyawan Kantor #karyawansukses #trending","shorts","2026-09-17",32,1155,9,0,0.78,77.0],["spqX7lo2RoI","Kalian tim mana #viral #fyp #trending #viral #funny #shorts #lucu","shorts","2026-07-04",9,1071,15,0,1.4,11.9],["pcII7rGBcWw","Bestie Resign, Giliran Lo yang Kena Kerjanya","shorts","2026-09-10",25,996,8,0,0.8,45.3],["F-JtZYPkxV8","Audyta Salah Kirim Chat ke Grup Kantor — Satu Kantor Auto Heboh","longform","2026-07-07",290,296,61,157,20.61,3.4],["SfWczKTJShw","Audyta Punya Rahasia yang Disembunyiin di Balik Map — Drama Kantor","longform","2026-07-29",455,282,38,133,13.48,4.3],["fczXpqCwCWo","Ternyata Kami Udah Kecanduan Sarapan Gratisnya Apri — Drama Kantor","longform","2026-07-04",483,253,48,119,18.97,2.8],["brFBBa-ietg","Inayah Jatuh Cinta, Kopi Sampai Lupa — Drama Kantor","longform","2026-08-08",707,233,36,79,15.45,4.2],["4C3hh1ri8E8","Sigit Dapat Pujian, Semua Curiga","longform","2026-07-22",512,208,58,175,27.88,2.9]];let V=VD,vf="all";
+function vk(){const f=V.filter(v=>vf=="all"||v[2]==vf),sum=i=>f.reduce((a,v)=>a+v[i],0),n=f.length,vw=sum(5),lk=sum(6),km=sum(7),fm=x=>x.toLocaleString("id-ID");
+ $("#vk").innerHTML=[["Video",n],["Total Views",fm(vw)],["Rata-rata Views",fm(Math.round(vw/(n||1)))],["Likes",fm(lk)],["Komentar",fm(km)],["Engagement Rata-rata",(f.reduce((a,v)=>a+v[8],0)/(n||1)).toFixed(2)+"%"]].map(([a,b])=>`<div class="k">${a}<b>${b}</b></div>`).join("");
+ $("#vf").innerHTML=[["all","Semua"],["shorts","Shorts"],["longform","Long-form"]].map(([k,l])=>`<button class="pill ${vf==k?"on":""}" data-vf="${k}">${l}</button>`).join(" ");
+ const d=[...f].sort((a,b)=>a[3]>b[3]?1:-1);
+ if(d.length<2){$("#vc").innerHTML='<div class="empty">Data kurang.</div>'}else{const W=900,H=240,m=44,mx=Math.max(...d.map(v=>v[5]))*1.1||1,bw=(W-m-10)/d.length;
+  $("#vc").innerHTML=`<svg viewBox="0 0 ${W} ${H}">${[0,.5,1].map(q=>{const y=H-24-q*(H-44);return`<line x1="${m}" x2="${W-10}" y1="${y}" y2="${y}" stroke="#2a2027"/><text x="0" y="${y+4}" fill="#9c8f98" font-size="11">${Math.round(mx*q)}</text>`}).join("")}${d.map((v,i)=>{const h=v[5]/mx*(H-44);return`<rect x="${m+i*bw+1}" y="${H-24-h}" width="${Math.max(2,bw-2)}" height="${h}" rx="2" fill="${v[2]=="longform"?"#f3d6ea":"#c9a0bd"}"><title>${esc(v[1])} · ${v[5]} views</title></rect>`}).join("")}<text x="${m}" y="${H-6}" fill="#9c8f98" font-size="11">${d[0][3]}</text><text x="${W-10}" y="${H-6}" text-anchor="end" fill="#9c8f98" font-size="11">${d[d.length-1][3]}</text></svg><div class="sub">Ungu muda = long-form · ungu = Shorts</div>`}
+ const t=[...f].sort((a,b)=>b[5]-a[5]);
+ $("#vt").innerHTML=`<table><tr><th>Judul</th><th>Tipe</th><th>Tanggal</th><th>Durasi</th><th>Views</th><th>Likes</th><th>Komen</th><th>Eng %</th><th>Views/hari</th></tr>${t.map(v=>`<tr><td style="min-width:220px">${esc(v[1])}</td><td><span class="tag">${esc(v[2])}</span></td><td>${esc(v[3])}</td><td>${v[4]}s</td><td>${v[5]}</td><td>${v[6]}</td><td>${v[7]}</td><td>${v[8]}</td><td>${v[9]}</td></tr>`).join("")}</table>`;
+ S.vid=V.map(v=>({judul:v[1],tipe:v[2],tanggal:v[3],views:v[5],likes:v[6],komentar:v[7],eng:v[8]}))}
+$("#vsave").onclick=()=>saveV(V);
+document.addEventListener("click",e=>{if(e.target.dataset.vf){vf=e.target.dataset.vf;vk()}});
+function pcsv(t){const o=[];let r=[],c="",q=0;t=t.replace(/^\uFEFF/,"");for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=0}else c+=ch}else if(ch=='"')q=1;else if(ch==","){r.push(c);c=""}else if(ch=="\n"||ch=="\r"){if(ch=="\r"&&t[i+1]=="\n")i++;r.push(c);c="";o.push(r);r=[]}else c+=ch}if(c||r.length){r.push(c);o.push(r)}return o}
+$("#vimp").onchange=async e=>{const f=e.target.files[0];if(!f)return;const R=pcsv(await f.text()).slice(1).filter(r=>r[1]&&r[2]&&r[3]).map(r=>[r[0],r[1],r[2],r[3],+r[4]||0,+r[5]||0,+r[6]||0,+r[7]||0,+r[8]||0,+r[9]||0]);if(!R.length){toast("CSV tidak sesuai format");return}V=R;vk();await saveV(R)};
+async function saveV(rows){if(!db){toast("Database belum terhubung");return}try{for(const v of rows)await db.doc("videos/"+v[0]).set({video_id:v[0],judul:v[1],tipe:v[2],tanggal_publish:v[3],durasi_detik:v[4],views:v[5],likes:v[6],komentar:v[7],engagement_pct:v[8],views_per_day:v[9]});toast(rows.length+" video tersimpan di database")}catch(x){toast("Gagal menyimpan: "+(x.code||"izin?"))}}
+vk();
+// login + data
+let me={};
+(async()=>{try{const u=await claude.use("user");db=await claude.use("db");if(!u||!db)throw 0;me=await u.me();
+ $("#login").style.display="none";$("#app").style.display="grid";const n=me.name||"Pengguna";$("#nm").textContent=n.split(" ")[0];$("#un").textContent=n;$("#av").textContent=n.slice(0,2).toUpperCase();$("#ur").textContent=me.canEdit?"Admin / Editor":"Anggota";
+ buildForms();let seeded=0;db.collection("videos").onSnapshot(s=>{const r=s.docs.map(d=>d.data()).filter(x=>x.video_id);if(r.length){V=r.map(x=>[x.video_id,x.judul,x.tipe,x.tanggal_publish,x.durasi_detik,x.views,x.likes,x.komentar,x.engagement_pct,x.views_per_day]);vk()}else if(!seeded){seeded=1;if(me.canEdit)saveV(VD)}},()=>toast("Gagal memuat video"));for(const c in S)db.collection(c).onSnapshot(s=>{S[c]=s.docs.map(d=>({id:d.id,...d.data()}));render()},()=>toast("Gagal memuat "+c));render()}
+ catch(e){$("#lmsg").textContent="Silakan masuk dengan akun Claude kamu. Buka halaman ini lewat claude.ai dalam keadaan login, lalu klik tombol di bawah."}})();
+</script></body></html>

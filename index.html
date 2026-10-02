@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OGM Dashboard</title>
+    <style>
+      :root {
+        --bg: #0b0911;
+        --bg-2: #12131d;
+        --panel: rgba(19, 21, 32, 0.92);
+        --panel-alt: rgba(14, 16, 26, 0.9);
+        --soft: rgba(255, 255, 255, 0.04);
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #eef2ff;
+        --muted: #9aa5c7;
+        --muted-2: #6f7596;
+        --primary: #c899d3;
+        --primary-2: #8d6bbc;
+        --accent: #f8c6d8;
+        --success: #6fe7b8;
+        --warning: #f8d06e;
+        --danger: #ff7c93;
+        --shadow: 0 24px 48px rgba(4, 6, 15, 0.45);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(circle at top left, rgba(137, 92, 188, 0.32), transparent 28%),
+          radial-gradient(circle at top right, rgba(248, 198, 216, 0.18), transparent 32%),
+          var(--bg);
+        color: var(--text);
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      button, input, select {
+        font: inherit;
+      }
+
+      .app-shell {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 20px;
+        max-width: 1440px;
+        margin: 24px auto;
+        padding: 20px;
+      }
+
+      .sidebar {
+        background: rgba(9, 11, 18, 0.9);
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        box-shadow: var(--shadow);
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 88px);
+        position: sticky;
+        top: 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px 22px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--accent), var(--primary));
+        color: #130d14;
+        font-weight: 900;
+        border-radius: 12px;
+        box-shadow: 0 10px 22px rgba(200, 153, 211, 0.45);
+      }
+
+      .brand-text {
+        font-size: 1.05rem;
+      }
+
+      .nav-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--muted);
+        padding: 12px 12px;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .nav-item:hover,
+      .nav-item.active {
+        background: linear-gradient(90deg, rgba(168, 119, 194, 0.18), rgba(255,255,255,0.02));
+        color: var(--text);
+        border-color: rgba(200, 153, 211, 0.24);
+      }
+
+      .nav-icon {
+        width: 18px;
+        text-align: center;
+        opacity: 0.96;
+      }
+
+      .sidebar-spacer {
+        flex: 1;
+      }
+
+      .main-area {
+        min-width: 0;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 16px 18px 20px;
+        border: 1px solid var(--line);
+        background: rgba(13, 16, 25, 0.7);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(12px);
+      }
+
+      .title-wrap h1 {
+        margin: 0;
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        line-height: 1.1;
+        letter-spacing: -0.04em;
+      }
+
+      .title-wrap h1 span {
+        color: var(--accent);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin-top: 6px;
+        font-size: 0.9rem;
+      }
+
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 9px 14px;
+        min-width: 270px;
+      }
+
+      .search-box input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text);
+        width: 100%;
+        font-size: 0.92rem;
+      }
+
+      .search-box input::placeholder {
+        color: var(--muted-2);
+      }
+
+      .icon-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.03);
+        color: var(--text);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+
+      .user-chip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 8px 12px;
+      }
+
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: #120d14;
+        font-weight: 800;
+      }
+
+      .user-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+
+      .user-text strong {
+        font-size: 0.8rem;
+      }
+
+      .user-text span {
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      .section {
+        padding-top: 22px;
+      }
+
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .chip.active {
+        background: linear-gradient(135deg, rgba(168,119,194,0.28), rgba(248,198,216,0.12));
+        border-color: rgba(200,153,211,0.32);
+        color: var(--text);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: linear-gradient(180deg, rgba(19,22,34,0.9), rgba(12,14,22,0.92));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 18px 18px 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .metric-card { grid-column: span 3; }
+      .wide-card { grid-column: span 6; }
+      .mid-card { grid-column: span 4; }
+      .full-card { grid-column: span 12; }
+
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .card-head h3 {
+        margin: 0;
+        font-size: 0.96rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .badge {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 5px 9px;
+        font-size: 0.72rem;
+      }
+
+      .metric-value {
+        font-size: clamp(2rem, 2.7vw, 2.7rem);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        margin: 6px 0 4px;
+      }
+
+      .epsilon {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .progress {
+        width: 100%;
+        height: 8px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 14px;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+      }
+
+      .kpi-box {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 12px;
+      }
+
+      .kpi-tile {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 12px 12px 10px;
+      }
+
+      .kpi-tile strong {
+        display: block;
+        font-size: 1.3rem;
+        margin-top: 6px;
+      }
+
+      .tiny {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .list-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+      }
+
+      .list-item:first-child {
+        border-top: none;
+        padding-top: 0;
+      }
+
+      .list-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .list-meta strong {
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .list-meta span {
+        color: var(--muted);
+        font-size: 0.73rem;
+      }
+
+      .tag {
+        align-self: flex-start;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--line);
+        color: var(--text);
+      }
+
+      .tag.success { background: rgba(111, 231, 184, 0.12); color: #baffdc; border-color: rgba(111,231,184,0.18); }
+      .tag.warn { background: rgba(248, 208, 110, 0.12); color: #ffe9ad; border-color: rgba(248,208,110,0.2); }
+      .tag.danger { background: rgba(255,124,147,0.12); color: #ffc0cc; border-color: rgba(255,124,147,0.2); }
+
+      .chart-wrap {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 12px;
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      th {
+        color: var(--muted);
+        font-weight: 500;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      td {
+        white-space: nowrap;
+      }
+
+      .pill-btn {
+        border: none;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(140,107,188,0.25), rgba(200,153,211,0.15));
+        color: var(--text);
+        padding: 9px 14px;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .pill-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .field label {
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
+      .field input,
+      .field select {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+        color: var(--text);
+        outline: none;
+      }
+
+      .field input::placeholder {
+        color: var(--muted-2);
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 16px;
+      }
+
+      .primary-btn {
+        border: none;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #160d18;
+        padding: 11px 18px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 12px 18px rgba(168, 119, 194, 0.34);
+      }
+
+      .stack {
+        display: grid;
+        gap: 16px;
+      }
+
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .video-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px;
+      }
+
+      .video-thumb {
+        height: 132px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(200,153,211,.26), rgba(94,81,177,.23));
+        display: flex;
+        align-items: end;
+        padding: 12px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: #f7e3f2;
+      }
+
+      .video-card h4 {
+        margin: 12px 0 6px;
+        font-size: 0.9rem;
+      }
+
+      .video-meta {
+        color: var(--muted);
+        font-size: 0.74rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      @media (max-width: 1180px) {
+        .app-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          min-height: auto;
+        }
+
+        .metric-card, .wide-card, .mid-card, .full-card {
+          grid-column: span 12;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .topbar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .topbar-right {
+          justify-content: space-between;
+          flex-wrap: wrap;
+        }
+
+        .search-box {
+          min-width: 0;
+          flex: 1;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .app-shell {
+          padding: 10px;
+          margin: 12px auto;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">O</div>
+          <div class="brand-text">OGM</div>
+        </div>
+
+        <nav class="nav-group">
+          <button class="nav-item active"><span class="nav-icon">▣</span>Dashboard</button>
+          <button class="nav-item"><span class="nav-icon">☑</span>Progres Tugas</button>
+          <button class="nav-item"><span class="nav-icon">◔</span>KPI Tim</button>
+          <button class="nav-item"><span class="nav-icon">▤</span>Laporan</button>
+          <button class="nav-item"><span class="nav-icon">◎</span>Sosmed</button>
+          <button class="nav-item"><span class="nav-icon">▶</span>Performa Video</button>
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+
+        <nav class="nav-group">
+          <button class="nav-item"><span class="nav-icon">⚙</span>Pengaturan</button>
+        </nav>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="title-wrap">
+            <h1>Selamat datang, <span>Ikbal</span></h1>
+            <div class="subtitle">Ringkasan performa konten &amp; tim OGM</div>
+          </div>
+
+          <div class="topbar-right">
+            <div class="search-box">
+              <span>⌕</span>
+              <input type="text" placeholder="Cari tugas, KPI, atau laporan" />
+            </div>
+            <button class="icon-btn" aria-label="notifikasi">🔔</button>
+            <div class="user-chip">
+              <div class="avatar">IK</div>
+              <div class="user-text">
+                <strong>Ikbal</strong>
+                <span>Admin / Editor</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="section">
+          <div class="filter-row">
+            <button class="chip active">Bulan ini</button>
+            <button class="chip">7 hari</button>
+            <button class="chip">30 hari</button>
+            <button class="chip">90 hari</button>
+          </div>
+
+          <div class="grid">
+            <article class="card metric-card">
+              <div class="card-head">
+                <h3>Total Konten Selesai</h3>
+                <span class="badge">+18%</span>
+              </div>
+              <div class="metric-value">48</div>
+              <div class="epsilon">dari target 62</div>
+              <div class="progress"><span style="width: 77%"></span></div>
+            </article>
+
+            <article class="card metric-card">
+              <div class="card-head">
+                <h3>Engagement Rate</h3>
+                <span class="badge">Naik</span>
+              </div>
+              <div class="metric-value">8.4%</div>
+              <div class="epsilon">Rata-rata 90 hari</div>
+              <div class="progress"><span style="width: 84%"></span></div>
+            </article>
+
+            <article class="card metric-card">
+              <div class="card-head">
+                <h3>Follower Growth</h3>
+                <span class="badge">+12.3k</span>
+              </div>
+              <div class="metric-value">94.2k</div>
+              <div class="epsilon">Pertumbuhan akun utama</div>
+              <div class="progress"><span style="width: 69%"></span></div>
+            </article>
+
+            <article class="card metric-card">
+              <div class="card-head">
+                <h3>AI Insights</h3>
+                <span class="badge">Ready</span>
+              </div>
+              <div class="metric-value">3</div>
+              <div class="epsilon">rekomendasi aktif hari ini</div>
+              <div class="progress"><span style="width: 90%"></span></div>
+            </article>
+
+            <article class="card wide-card">
+              <div class="card-head">
+                <h3>Performa Engagement</h3>
+                <span class="badge">Last 30 days</span>
+              </div>
+              <div class="chart-wrap">
+                <svg viewBox="0 0 620 220" width="100%" height="220" aria-label="Grafik engagement">
+                  <defs>
+                    <linearGradient id="engFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#d4a0df" stop-opacity="0.5"/>
+                      <stop offset="100%" stop-color="#d4a0df" stop-opacity="0.05"/>
+                    </linearGradient>
+                  </defs>
+                  <g stroke="rgba(255,255,255,0.08)">
+                    <line x1="36" y1="20" x2="590" y2="20"/>
+                    <line x1="36" y1="80" x2="590" y2="80"/>
+                    <line x1="36" y1="140" x2="590" y2="140"/>
+                    <line x1="36" y1="200" x2="590" y2="200"/>
+                  </g>
+                  <g fill="rgba(154,165,199,0.8)" font-size="10" font-family="Inter, sans-serif">
+                    <text x="22" y="204">0</text>
+                    <text x="12" y="144">20%</text>
+                    <text x="12" y="84">40%</text>
+                    <text x="12" y="24">60%</text>
+                  </g>
+                  <path d="M 36 172 C 90 150, 120 132, 160 128 S 250 138, 300 115 S 370 76, 410 82 S 500 52, 590 38 L 590 200 L 36 200 Z" fill="url(#engFill)"/>
+                  <path d="M 36 172 C 90 150, 120 132, 160 128 S 250 138, 300 115 S 370 76, 410 82 S 500 52, 590 38" fill="none" stroke="#d6aee2" stroke-width="3" stroke-linecap="round"/>
+                  <g fill="#efcce6">
+                    <circle cx="300" cy="115" r="5"/>
+                    <circle cx="410" cy="82" r="5"/>
+                    <circle cx="590" cy="38" r="5"/>
+                  </g>
+                </svg>
+              </div>
+            </article>
+
+            <article class="card mid-card">
+              <div class="card-head">
+                <h3>Deadline Terdekat</h3>
+                <span class="badge">5 items</span>
+              </div>
+              <div class="list">
+                <div class="list-item">
+                  <div class="list-meta">
+                    <strong>Reel campaign X</strong>
+                    <span>Rara · 12 Sep 2026</span>
+                  </div>
+                  <span class="tag warn">Review</span>
+                </div>
+                <div class="list-item">
+                  <div class="list-meta">
+                    <strong>Content calendar</strong>
+                    <span>Andra · 14 Sep 2026</span>
+                  </div>
+                  <span class="tag success">Selesai</span>
+                </div>
+                <div class="list-item">
+                  <div class="list-meta">
+                    <strong>Brand insight report</strong>
+                    <span>Fira · 17 Sep 2026</span>
+                  </div>
+                  <span class="tag">Dikerjakan</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card full-card">
+              <div class="card-head">
+                <h3>Daftar Tugas</h3>
+                <button class="pill-btn">+ Tambah tugas</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Judul tugas</th>
+                      <th>PIC</th>
+                      <th>Deadline</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Shorts campaign #Merdeka</td>
+                      <td>Rara</td>
+                      <td>12 Sep 2026</td>
+                      <td><span class="tag success">Selesai</span></td>
+                    </tr>
+                    <tr>
+                      <td>Video testimonial produk</td>
+                      <td>Fikri</td>
+                      <td>14 Sep 2026</td>
+                      <td><span class="tag warn">Review</span></td>
+                    </tr>
+                    <tr>
+                      <td>Social listening insight</td>
+                      <td>Selma</td>
+                      <td>16 Sep 2026</td>
+                      <td><span class="tag">Dikerjakan</span></td>
+                    </tr>
+                    <tr>
+                      <td>Archive video evergreen</td>
+                      <td>Andra</td>
+                      <td>18 Sep 2026</td>
+                      <td><span class="tag danger">Urgent</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="card mid-card">
+              <div class="card-head">
+                <h3>KPI Tim</h3>
+                <span class="badge">Team</span>
+              </div>
+              <div class="kpi-box">
+                <div class="kpi-tile">
+                  <span class="tiny">Rara</span>
+                  <strong>96%</strong>
+                  <span class="tiny">18/20</span>
+                </div>
+                <div class="kpi-tile">
+                  <span class="tiny">Fikri</span>
+                  <strong>82%</strong>
+                  <span class="tiny">14/17</span>
+                </div>
+                <div class="kpi-tile">
+                  <span class="tiny">Selma</span>
+                  <strong>88%</strong>
+                  <span class="tiny">15/17</span>
+                </div>
+                <div class="kpi-tile">
+                  <span class="tiny">Andra</span>
+                  <strong>74%</strong>
+                  <span class="tiny">13/18</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card mid-card">
+              <div class="card-head">
+                <h3>Akun Sosmed</h3>
+                <span class="badge">Live</span>
+              </div>
+              <div class="stack">
+                <div class="list-item">
+                  <div class="list-meta">
+                    <strong>Instagram</strong>
+                    <span>182k followers</span>
+                  </div>
+                  <span class="tag success">8.8%</span>
+                </div>
+                <div class="list-item">
+                  <div class="list-meta">
+                    <strong>TikTok</strong>
+                    <span>96k followers</span>
+                  </div>
+                  <span class="tag success">9.3%</span>
+                </div>
+                <div class="list-item">
+                  <div class="list-meta">
+                    <strong>YouTube</strong>
+                    <span>54k subscribers</span>
+                  </div>
+                  <span class="tag warn">6.9%</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card mid-card">
+              <div class="card-head">
+                <h3>Video Performance</h3>
+                <span class="badge">90 hari</span>
+              </div>
+              <div class="video-grid">
+                <div class="video-card">
+                  <div class="video-thumb">Shorts #1</div>
+                  <h4>Ketika Gen Z telat masuk kerja</h4>
+                  <div class="video-meta"><span>18.1k views</span><span>0.57%</span></div>
+                </div>
+                <div class="video-card">
+                  <div class="video-thumb">Shorts #2</div>
+                  <h4>Drama kantor viral</h4>
+                  <div class="video-meta"><span>8.8k views</span><span>0.44%</span></div>
+                </div>
+                <div class="video-card">
+                  <div class="video-thumb">Longform</div>
+                  <h4>Audyta Punya Rahasia</h4>
+                  <div class="video-meta"><span>296 views</span><span>20.61%</span></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card full-card">
+              <div class="card-head">
+                <h3>Tambah Data</h3>
+              </div>
+              <form>
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Nama tugas</label>
+                    <input type="text" placeholder="Judul tugas" />
+                  </div>
+                  <div class="field">
+                    <label>PIC</label>
+                    <input type="text" placeholder="Nama anggota" />
+                  </div>
+                  <div class="field">
+                    <label>Deadline</label>
+                    <input type="date" />
+                  </div>
+                  <div class="field">
+                    <label>Status</label>
+                    <select>
+                      <option>Dikerjakan</option>
+                      <option>Review</option>
+                      <option>Selesai</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button type="button" class="primary-btn">Simpan</button>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

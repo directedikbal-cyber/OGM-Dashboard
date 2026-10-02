@@ -48,6 +48,205 @@
         font: inherit;
       }
 
+      /* ===== LOGIN PAGE ===== */
+      .login-page {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+        background:
+          radial-gradient(circle at 20% 50%, rgba(137, 92, 188, 0.4), transparent 40%),
+          radial-gradient(circle at 80% 20%, rgba(248, 198, 216, 0.3), transparent 40%),
+          var(--bg);
+      }
+
+      .login-container {
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .login-card {
+        background: linear-gradient(180deg, rgba(19,22,34,0.95), rgba(12,14,22,0.98));
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: 48px 32px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 36px;
+      }
+
+      .login-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .login-mark {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--accent), var(--primary));
+        color: #130d14;
+        font-weight: 900;
+        font-size: 24px;
+        border-radius: 14px;
+        box-shadow: 0 16px 32px rgba(200, 153, 211, 0.48);
+      }
+
+      .login-title {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        margin: 0;
+      }
+
+      .login-subtitle {
+        color: var(--muted);
+        font-size: 0.92rem;
+        margin-top: 8px;
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 32px 0;
+      }
+
+      .team-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
+        cursor: pointer;
+        transition: 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .team-btn:hover {
+        background: rgba(200, 153, 211, 0.12);
+        border-color: rgba(200, 153, 211, 0.36);
+        transform: translateY(-4px);
+      }
+
+      .team-btn.active {
+        background: linear-gradient(135deg, rgba(200,153,211,0.28), rgba(248,198,216,0.12));
+        border-color: rgba(200,153,211,0.54);
+        box-shadow: 0 12px 24px rgba(200, 153, 211, 0.24);
+      }
+
+      .team-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 16px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: #130d14;
+      }
+
+      .team-btn:nth-child(1) .team-avatar { background: linear-gradient(135deg, #c899d3, #f8c6d8); }
+      .team-btn:nth-child(2) .team-avatar { background: linear-gradient(135deg, #7c5aa8, #b599d4); }
+      .team-btn:nth-child(3) .team-avatar { background: linear-gradient(135deg, #d67ba8, #f8a0b8); }
+      .team-btn:nth-child(4) .team-avatar { background: linear-gradient(135deg, #a86ba8, #d4a0d8); }
+      .team-btn:nth-child(5) .team-avatar { background: linear-gradient(135deg, #e898c8, #f0c6d8); }
+
+      .team-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .team-role {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-field label {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .form-field input {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 11px 14px;
+        color: var(--text);
+        font-size: 0.9rem;
+        outline: none;
+        transition: 0.2s ease;
+      }
+
+      .form-field input:focus {
+        background: rgba(255,255,255,0.05);
+        border-color: rgba(200, 153, 211, 0.48);
+        box-shadow: 0 0 12px rgba(200, 153, 211, 0.16);
+      }
+
+      .form-field input::placeholder {
+        color: var(--muted-2);
+      }
+
+      .login-btn {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: #130d14;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 18px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        box-shadow: 0 12px 28px rgba(200, 153, 211, 0.36);
+        transition: 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-top: 8px;
+      }
+
+      .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(200, 153, 211, 0.44);
+      }
+
+      .login-btn:active {
+        transform: translateY(0);
+      }
+
+      .login-footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-top: 20px;
+      }
+
+      .hidden { display: none; }
+
+      /* ===== DASHBOARD PAGE ===== */
       .app-shell {
         display: grid;
         grid-template-columns: 250px 1fr;
@@ -132,6 +331,26 @@
 
       .sidebar-spacer {
         flex: 1;
+      }
+
+      .logout-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        border: 1px solid rgba(255, 124, 147, 0.24);
+        background: rgba(255, 124, 147, 0.08);
+        color: #ff9db5;
+        padding: 12px 12px;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .logout-btn:hover {
+        background: rgba(255, 124, 147, 0.16);
+        border-color: rgba(255, 124, 147, 0.36);
       }
 
       .main-area {
@@ -592,6 +811,10 @@
         .form-grid {
           grid-template-columns: 1fr 1fr;
         }
+
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media (max-width: 520px) {
@@ -603,334 +826,469 @@
         .form-grid {
           grid-template-columns: 1fr;
         }
+
+        .login-card {
+          padding: 32px 20px;
+        }
+
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="app-shell">
-      <aside class="sidebar">
-        <div class="brand">
-          <div class="brand-mark">O</div>
-          <div class="brand-text">OGM</div>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page">
+      <div class="login-container">
+        <div class="login-card">
+          <div class="login-header">
+            <div class="login-logo">
+              <div class="login-mark">O</div>
+              <div class="login-title">OGM</div>
+            </div>
+            <p class="login-subtitle">Dashboard Tim Multimedia</p>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="color: var(--muted); font-size: 0.8rem; display: block; margin-bottom: 10px;">Pilih anggota tim:</label>
+            <div class="team-grid">
+              <button class="team-btn" data-user="ikbal" onclick="selectUser(this)">
+                <div class="team-avatar">IK</div>
+                <div class="team-name">Ikbal</div>
+                <div class="team-role">Admin</div>
+              </button>
+              <button class="team-btn" data-user="rara" onclick="selectUser(this)">
+                <div class="team-avatar">RA</div>
+                <div class="team-name">Rara</div>
+                <div class="team-role">Content Lead</div>
+              </button>
+              <button class="team-btn" data-user="fikri" onclick="selectUser(this)">
+                <div class="team-avatar">FK</div>
+                <div class="team-name">Fikri</div>
+                <div class="team-role">Videographer</div>
+              </button>
+              <button class="team-btn" data-user="selma" onclick="selectUser(this)">
+                <div class="team-avatar">SM</div>
+                <div class="team-name">Selma</div>
+                <div class="team-role">Analytics</div>
+              </button>
+              <button class="team-btn" data-user="andra" onclick="selectUser(this)">
+                <div class="team-avatar">AD</div>
+                <div class="team-name">Andra</div>
+                <div class="team-role">Designer</div>
+              </button>
+            </div>
+          </div>
+
+          <form class="login-form" onsubmit="handleLogin(event)">
+            <div class="form-field">
+              <label>Password</label>
+              <input type="password" id="passwordInput" placeholder="Masukkan password" required />
+            </div>
+            <button type="submit" class="login-btn">Masuk</button>
+          </form>
+
+          <div class="login-footer">
+            © 2026 OGM Dashboard · Multimedia Team Management
+          </div>
         </div>
-
-        <nav class="nav-group">
-          <button class="nav-item active"><span class="nav-icon">▣</span>Dashboard</button>
-          <button class="nav-item"><span class="nav-icon">☑</span>Progres Tugas</button>
-          <button class="nav-item"><span class="nav-icon">◔</span>KPI Tim</button>
-          <button class="nav-item"><span class="nav-icon">▤</span>Laporan</button>
-          <button class="nav-item"><span class="nav-icon">◎</span>Sosmed</button>
-          <button class="nav-item"><span class="nav-icon">▶</span>Performa Video</button>
-        </nav>
-
-        <div class="sidebar-spacer"></div>
-
-        <nav class="nav-group">
-          <button class="nav-item"><span class="nav-icon">⚙</span>Pengaturan</button>
-        </nav>
-      </aside>
-
-      <main class="main-area">
-        <header class="topbar">
-          <div class="title-wrap">
-            <h1>Selamat datang, <span>Ikbal</span></h1>
-            <div class="subtitle">Ringkasan performa konten &amp; tim OGM</div>
-          </div>
-
-          <div class="topbar-right">
-            <div class="search-box">
-              <span>⌕</span>
-              <input type="text" placeholder="Cari tugas, KPI, atau laporan" />
-            </div>
-            <button class="icon-btn" aria-label="notifikasi">🔔</button>
-            <div class="user-chip">
-              <div class="avatar">IK</div>
-              <div class="user-text">
-                <strong>Ikbal</strong>
-                <span>Admin / Editor</span>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <section class="section">
-          <div class="filter-row">
-            <button class="chip active">Bulan ini</button>
-            <button class="chip">7 hari</button>
-            <button class="chip">30 hari</button>
-            <button class="chip">90 hari</button>
-          </div>
-
-          <div class="grid">
-            <article class="card metric-card">
-              <div class="card-head">
-                <h3>Total Konten Selesai</h3>
-                <span class="badge">+18%</span>
-              </div>
-              <div class="metric-value">48</div>
-              <div class="epsilon">dari target 62</div>
-              <div class="progress"><span style="width: 77%"></span></div>
-            </article>
-
-            <article class="card metric-card">
-              <div class="card-head">
-                <h3>Engagement Rate</h3>
-                <span class="badge">Naik</span>
-              </div>
-              <div class="metric-value">8.4%</div>
-              <div class="epsilon">Rata-rata 90 hari</div>
-              <div class="progress"><span style="width: 84%"></span></div>
-            </article>
-
-            <article class="card metric-card">
-              <div class="card-head">
-                <h3>Follower Growth</h3>
-                <span class="badge">+12.3k</span>
-              </div>
-              <div class="metric-value">94.2k</div>
-              <div class="epsilon">Pertumbuhan akun utama</div>
-              <div class="progress"><span style="width: 69%"></span></div>
-            </article>
-
-            <article class="card metric-card">
-              <div class="card-head">
-                <h3>AI Insights</h3>
-                <span class="badge">Ready</span>
-              </div>
-              <div class="metric-value">3</div>
-              <div class="epsilon">rekomendasi aktif hari ini</div>
-              <div class="progress"><span style="width: 90%"></span></div>
-            </article>
-
-            <article class="card wide-card">
-              <div class="card-head">
-                <h3>Performa Engagement</h3>
-                <span class="badge">Last 30 days</span>
-              </div>
-              <div class="chart-wrap">
-                <svg viewBox="0 0 620 220" width="100%" height="220" aria-label="Grafik engagement">
-                  <defs>
-                    <linearGradient id="engFill" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stop-color="#d4a0df" stop-opacity="0.5"/>
-                      <stop offset="100%" stop-color="#d4a0df" stop-opacity="0.05"/>
-                    </linearGradient>
-                  </defs>
-                  <g stroke="rgba(255,255,255,0.08)">
-                    <line x1="36" y1="20" x2="590" y2="20"/>
-                    <line x1="36" y1="80" x2="590" y2="80"/>
-                    <line x1="36" y1="140" x2="590" y2="140"/>
-                    <line x1="36" y1="200" x2="590" y2="200"/>
-                  </g>
-                  <g fill="rgba(154,165,199,0.8)" font-size="10" font-family="Inter, sans-serif">
-                    <text x="22" y="204">0</text>
-                    <text x="12" y="144">20%</text>
-                    <text x="12" y="84">40%</text>
-                    <text x="12" y="24">60%</text>
-                  </g>
-                  <path d="M 36 172 C 90 150, 120 132, 160 128 S 250 138, 300 115 S 370 76, 410 82 S 500 52, 590 38 L 590 200 L 36 200 Z" fill="url(#engFill)"/>
-                  <path d="M 36 172 C 90 150, 120 132, 160 128 S 250 138, 300 115 S 370 76, 410 82 S 500 52, 590 38" fill="none" stroke="#d6aee2" stroke-width="3" stroke-linecap="round"/>
-                  <g fill="#efcce6">
-                    <circle cx="300" cy="115" r="5"/>
-                    <circle cx="410" cy="82" r="5"/>
-                    <circle cx="590" cy="38" r="5"/>
-                  </g>
-                </svg>
-              </div>
-            </article>
-
-            <article class="card mid-card">
-              <div class="card-head">
-                <h3>Deadline Terdekat</h3>
-                <span class="badge">5 items</span>
-              </div>
-              <div class="list">
-                <div class="list-item">
-                  <div class="list-meta">
-                    <strong>Reel campaign X</strong>
-                    <span>Rara · 12 Sep 2026</span>
-                  </div>
-                  <span class="tag warn">Review</span>
-                </div>
-                <div class="list-item">
-                  <div class="list-meta">
-                    <strong>Content calendar</strong>
-                    <span>Andra · 14 Sep 2026</span>
-                  </div>
-                  <span class="tag success">Selesai</span>
-                </div>
-                <div class="list-item">
-                  <div class="list-meta">
-                    <strong>Brand insight report</strong>
-                    <span>Fira · 17 Sep 2026</span>
-                  </div>
-                  <span class="tag">Dikerjakan</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="card full-card">
-              <div class="card-head">
-                <h3>Daftar Tugas</h3>
-                <button class="pill-btn">+ Tambah tugas</button>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Judul tugas</th>
-                      <th>PIC</th>
-                      <th>Deadline</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Shorts campaign #Merdeka</td>
-                      <td>Rara</td>
-                      <td>12 Sep 2026</td>
-                      <td><span class="tag success">Selesai</span></td>
-                    </tr>
-                    <tr>
-                      <td>Video testimonial produk</td>
-                      <td>Fikri</td>
-                      <td>14 Sep 2026</td>
-                      <td><span class="tag warn">Review</span></td>
-                    </tr>
-                    <tr>
-                      <td>Social listening insight</td>
-                      <td>Selma</td>
-                      <td>16 Sep 2026</td>
-                      <td><span class="tag">Dikerjakan</span></td>
-                    </tr>
-                    <tr>
-                      <td>Archive video evergreen</td>
-                      <td>Andra</td>
-                      <td>18 Sep 2026</td>
-                      <td><span class="tag danger">Urgent</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </article>
-
-            <article class="card mid-card">
-              <div class="card-head">
-                <h3>KPI Tim</h3>
-                <span class="badge">Team</span>
-              </div>
-              <div class="kpi-box">
-                <div class="kpi-tile">
-                  <span class="tiny">Rara</span>
-                  <strong>96%</strong>
-                  <span class="tiny">18/20</span>
-                </div>
-                <div class="kpi-tile">
-                  <span class="tiny">Fikri</span>
-                  <strong>82%</strong>
-                  <span class="tiny">14/17</span>
-                </div>
-                <div class="kpi-tile">
-                  <span class="tiny">Selma</span>
-                  <strong>88%</strong>
-                  <span class="tiny">15/17</span>
-                </div>
-                <div class="kpi-tile">
-                  <span class="tiny">Andra</span>
-                  <strong>74%</strong>
-                  <span class="tiny">13/18</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="card mid-card">
-              <div class="card-head">
-                <h3>Akun Sosmed</h3>
-                <span class="badge">Live</span>
-              </div>
-              <div class="stack">
-                <div class="list-item">
-                  <div class="list-meta">
-                    <strong>Instagram</strong>
-                    <span>182k followers</span>
-                  </div>
-                  <span class="tag success">8.8%</span>
-                </div>
-                <div class="list-item">
-                  <div class="list-meta">
-                    <strong>TikTok</strong>
-                    <span>96k followers</span>
-                  </div>
-                  <span class="tag success">9.3%</span>
-                </div>
-                <div class="list-item">
-                  <div class="list-meta">
-                    <strong>YouTube</strong>
-                    <span>54k subscribers</span>
-                  </div>
-                  <span class="tag warn">6.9%</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="card mid-card">
-              <div class="card-head">
-                <h3>Video Performance</h3>
-                <span class="badge">90 hari</span>
-              </div>
-              <div class="video-grid">
-                <div class="video-card">
-                  <div class="video-thumb">Shorts #1</div>
-                  <h4>Ketika Gen Z telat masuk kerja</h4>
-                  <div class="video-meta"><span>18.1k views</span><span>0.57%</span></div>
-                </div>
-                <div class="video-card">
-                  <div class="video-thumb">Shorts #2</div>
-                  <h4>Drama kantor viral</h4>
-                  <div class="video-meta"><span>8.8k views</span><span>0.44%</span></div>
-                </div>
-                <div class="video-card">
-                  <div class="video-thumb">Longform</div>
-                  <h4>Audyta Punya Rahasia</h4>
-                  <div class="video-meta"><span>296 views</span><span>20.61%</span></div>
-                </div>
-              </div>
-            </article>
-
-            <article class="card full-card">
-              <div class="card-head">
-                <h3>Tambah Data</h3>
-              </div>
-              <form>
-                <div class="form-grid">
-                  <div class="field">
-                    <label>Nama tugas</label>
-                    <input type="text" placeholder="Judul tugas" />
-                  </div>
-                  <div class="field">
-                    <label>PIC</label>
-                    <input type="text" placeholder="Nama anggota" />
-                  </div>
-                  <div class="field">
-                    <label>Deadline</label>
-                    <input type="date" />
-                  </div>
-                  <div class="field">
-                    <label>Status</label>
-                    <select>
-                      <option>Dikerjakan</option>
-                      <option>Review</option>
-                      <option>Selesai</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="actions">
-                  <button type="button" class="primary-btn">Simpan</button>
-                </div>
-              </form>
-            </article>
-          </div>
-        </section>
-      </main>
+      </div>
     </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="hidden">
+      <div class="app-shell">
+        <aside class="sidebar">
+          <div class="brand">
+            <div class="brand-mark">O</div>
+            <div class="brand-text">OGM</div>
+          </div>
+
+          <nav class="nav-group">
+            <button class="nav-item active"><span class="nav-icon">▣</span>Dashboard</button>
+            <button class="nav-item"><span class="nav-icon">☑</span>Progres Tugas</button>
+            <button class="nav-item"><span class="nav-icon">◔</span>KPI Tim</button>
+            <button class="nav-item"><span class="nav-icon">▤</span>Laporan</button>
+            <button class="nav-item"><span class="nav-icon">◎</span>Sosmed</button>
+            <button class="nav-item"><span class="nav-icon">▶</span>Performa Video</button>
+          </nav>
+
+          <div class="sidebar-spacer"></div>
+
+          <nav class="nav-group">
+            <button class="nav-item"><span class="nav-icon">⚙</span>Pengaturan</button>
+            <button class="logout-btn" onclick="handleLogout()"><span class="nav-icon">⬅</span>Keluar</button>
+          </nav>
+        </aside>
+
+        <main class="main-area">
+          <header class="topbar">
+            <div class="title-wrap">
+              <h1>Selamat datang, <span id="displayName">Ikbal</span></h1>
+              <div class="subtitle">Ringkasan performa konten &amp; tim OGM</div>
+            </div>
+
+            <div class="topbar-right">
+              <div class="search-box">
+                <span>⌕</span>
+                <input type="text" placeholder="Cari tugas, KPI, atau laporan" />
+              </div>
+              <button class="icon-btn" aria-label="notifikasi">🔔</button>
+              <div class="user-chip">
+                <div class="avatar" id="topAvatar">IK</div>
+                <div class="user-text">
+                  <strong id="topName">Ikbal</strong>
+                  <span id="topRole">Admin</span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <section class="section">
+            <div class="filter-row">
+              <button class="chip active">Bulan ini</button>
+              <button class="chip">7 hari</button>
+              <button class="chip">30 hari</button>
+              <button class="chip">90 hari</button>
+            </div>
+
+            <div class="grid">
+              <article class="card metric-card">
+                <div class="card-head">
+                  <h3>Total Konten Selesai</h3>
+                  <span class="badge">+18%</span>
+                </div>
+                <div class="metric-value">48</div>
+                <div class="epsilon">dari target 62</div>
+                <div class="progress"><span style="width: 77%"></span></div>
+              </article>
+
+              <article class="card metric-card">
+                <div class="card-head">
+                  <h3>Engagement Rate</h3>
+                  <span class="badge">Naik</span>
+                </div>
+                <div class="metric-value">8.4%</div>
+                <div class="epsilon">Rata-rata 90 hari</div>
+                <div class="progress"><span style="width: 84%"></span></div>
+              </article>
+
+              <article class="card metric-card">
+                <div class="card-head">
+                  <h3>Follower Growth</h3>
+                  <span class="badge">+12.3k</span>
+                </div>
+                <div class="metric-value">94.2k</div>
+                <div class="epsilon">Pertumbuhan akun utama</div>
+                <div class="progress"><span style="width: 69%"></span></div>
+              </article>
+
+              <article class="card metric-card">
+                <div class="card-head">
+                  <h3>AI Insights</h3>
+                  <span class="badge">Ready</span>
+                </div>
+                <div class="metric-value">3</div>
+                <div class="epsilon">rekomendasi aktif hari ini</div>
+                <div class="progress"><span style="width: 90%"></span></div>
+              </article>
+
+              <article class="card wide-card">
+                <div class="card-head">
+                  <h3>Performa Engagement</h3>
+                  <span class="badge">Last 30 days</span>
+                </div>
+                <div class="chart-wrap">
+                  <svg viewBox="0 0 620 220" width="100%" height="220" aria-label="Grafik engagement">
+                    <defs>
+                      <linearGradient id="engFill" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#d4a0df" stop-opacity="0.5"/>
+                        <stop offset="100%" stop-color="#d4a0df" stop-opacity="0.05"/>
+                      </linearGradient>
+                    </defs>
+                    <g stroke="rgba(255,255,255,0.08)">
+                      <line x1="36" y1="20" x2="590" y2="20"/>
+                      <line x1="36" y1="80" x2="590" y2="80"/>
+                      <line x1="36" y1="140" x2="590" y2="140"/>
+                      <line x1="36" y1="200" x2="590" y2="200"/>
+                    </g>
+                    <g fill="rgba(154,165,199,0.8)" font-size="10" font-family="Inter, sans-serif">
+                      <text x="22" y="204">0</text>
+                      <text x="12" y="144">20%</text>
+                      <text x="12" y="84">40%</text>
+                      <text x="12" y="24">60%</text>
+                    </g>
+                    <path d="M 36 172 C 90 150, 120 132, 160 128 S 250 138, 300 115 S 370 76, 410 82 S 500 52, 590 38 L 590 200 L 36 200 Z" fill="url(#engFill)"/>
+                    <path d="M 36 172 C 90 150, 120 132, 160 128 S 250 138, 300 115 S 370 76, 410 82 S 500 52, 590 38" fill="none" stroke="#d6aee2" stroke-width="3" stroke-linecap="round"/>
+                    <g fill="#efcce6">
+                      <circle cx="300" cy="115" r="5"/>
+                      <circle cx="410" cy="82" r="5"/>
+                      <circle cx="590" cy="38" r="5"/>
+                    </g>
+                  </svg>
+                </div>
+              </article>
+
+              <article class="card mid-card">
+                <div class="card-head">
+                  <h3>Deadline Terdekat</h3>
+                  <span class="badge">5 items</span>
+                </div>
+                <div class="list">
+                  <div class="list-item">
+                    <div class="list-meta">
+                      <strong>Reel campaign X</strong>
+                      <span>Rara · 12 Sep 2026</span>
+                    </div>
+                    <span class="tag warn">Review</span>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-meta">
+                      <strong>Content calendar</strong>
+                      <span>Andra · 14 Sep 2026</span>
+                    </div>
+                    <span class="tag success">Selesai</span>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-meta">
+                      <strong>Brand insight report</strong>
+                      <span>Fira · 17 Sep 2026</span>
+                    </div>
+                    <span class="tag">Dikerjakan</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card full-card">
+                <div class="card-head">
+                  <h3>Daftar Tugas</h3>
+                  <button class="pill-btn">+ Tambah tugas</button>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Judul tugas</th>
+                        <th>PIC</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Shorts campaign #Merdeka</td>
+                        <td>Rara</td>
+                        <td>12 Sep 2026</td>
+                        <td><span class="tag success">Selesai</span></td>
+                      </tr>
+                      <tr>
+                        <td>Video testimonial produk</td>
+                        <td>Fikri</td>
+                        <td>14 Sep 2026</td>
+                        <td><span class="tag warn">Review</span></td>
+                      </tr>
+                      <tr>
+                        <td>Social listening insight</td>
+                        <td>Selma</td>
+                        <td>16 Sep 2026</td>
+                        <td><span class="tag">Dikerjakan</span></td>
+                      </tr>
+                      <tr>
+                        <td>Archive video evergreen</td>
+                        <td>Andra</td>
+                        <td>18 Sep 2026</td>
+                        <td><span class="tag danger">Urgent</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+
+              <article class="card mid-card">
+                <div class="card-head">
+                  <h3>KPI Tim</h3>
+                  <span class="badge">Team</span>
+                </div>
+                <div class="kpi-box">
+                  <div class="kpi-tile">
+                    <span class="tiny">Rara</span>
+                    <strong>96%</strong>
+                    <span class="tiny">18/20</span>
+                  </div>
+                  <div class="kpi-tile">
+                    <span class="tiny">Fikri</span>
+                    <strong>82%</strong>
+                    <span class="tiny">14/17</span>
+                  </div>
+                  <div class="kpi-tile">
+                    <span class="tiny">Selma</span>
+                    <strong>88%</strong>
+                    <span class="tiny">15/17</span>
+                  </div>
+                  <div class="kpi-tile">
+                    <span class="tiny">Andra</span>
+                    <strong>74%</strong>
+                    <span class="tiny">13/18</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card mid-card">
+                <div class="card-head">
+                  <h3>Akun Sosmed</h3>
+                  <span class="badge">Live</span>
+                </div>
+                <div class="stack">
+                  <div class="list-item">
+                    <div class="list-meta">
+                      <strong>Instagram</strong>
+                      <span>182k followers</span>
+                    </div>
+                    <span class="tag success">8.8%</span>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-meta">
+                      <strong>TikTok</strong>
+                      <span>96k followers</span>
+                    </div>
+                    <span class="tag success">9.3%</span>
+                  </div>
+                  <div class="list-item">
+                    <div class="list-meta">
+                      <strong>YouTube</strong>
+                      <span>54k subscribers</span>
+                    </div>
+                    <span class="tag warn">6.9%</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card mid-card">
+                <div class="card-head">
+                  <h3>Video Performance</h3>
+                  <span class="badge">90 hari</span>
+                </div>
+                <div class="video-grid">
+                  <div class="video-card">
+                    <div class="video-thumb">Shorts #1</div>
+                    <h4>Ketika Gen Z telat masuk kerja</h4>
+                    <div class="video-meta"><span>18.1k views</span><span>0.57%</span></div>
+                  </div>
+                  <div class="video-card">
+                    <div class="video-thumb">Shorts #2</div>
+                    <h4>Drama kantor viral</h4>
+                    <div class="video-meta"><span>8.8k views</span><span>0.44%</span></div>
+                  </div>
+                  <div class="video-card">
+                    <div class="video-thumb">Longform</div>
+                    <h4>Audyta Punya Rahasia</h4>
+                    <div class="video-meta"><span>296 views</span><span>20.61%</span></div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card full-card">
+                <div class="card-head">
+                  <h3>Tambah Data</h3>
+                </div>
+                <form>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label>Nama tugas</label>
+                      <input type="text" placeholder="Judul tugas" />
+                    </div>
+                    <div class="field">
+                      <label>PIC</label>
+                      <input type="text" placeholder="Nama anggota" />
+                    </div>
+                    <div class="field">
+                      <label>Deadline</label>
+                      <input type="date" />
+                    </div>
+                    <div class="field">
+                      <label>Status</label>
+                      <select>
+                        <option>Dikerjakan</option>
+                        <option>Review</option>
+                        <option>Selesai</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="actions">
+                    <button type="button" class="primary-btn">Simpan</button>
+                  </div>
+                </form>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const TEAM_DATA = {
+        ikbal: { name: "Ikbal", role: "Admin", avatar: "IK" },
+        rara: { name: "Rara", role: "Content Lead", avatar: "RA" },
+        fikri: { name: "Fikri", role: "Videographer", avatar: "FK" },
+        selma: { name: "Selma", role: "Analytics", avatar: "SM" },
+        andra: { name: "Andra", role: "Designer", avatar: "AD" }
+      };
+
+      const PASSWORD = "ogm2026";
+      let currentUser = null;
+
+      function selectUser(btn) {
+        document.querySelectorAll(".team-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentUser = btn.dataset.user;
+      }
+
+      function handleLogin(e) {
+        e.preventDefault();
+        
+        if (!currentUser) {
+          alert("Pilih anggota tim terlebih dahulu");
+          return;
+        }
+
+        const password = document.getElementById("passwordInput").value;
+        
+        if (password !== PASSWORD) {
+          alert("Password salah!");
+          document.getElementById("passwordInput").value = "";
+          return;
+        }
+
+        // Tampilkan dashboard
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("dashboardPage").classList.remove("hidden");
+
+        // Set user data
+        const userData = TEAM_DATA[currentUser];
+        document.getElementById("displayName").textContent = userData.name.split(" ")[0];
+        document.getElementById("topName").textContent = userData.name;
+        document.getElementById("topRole").textContent = userData.role;
+        document.getElementById("topAvatar").textContent = userData.avatar;
+
+        console.log(`${userData.name} (${userData.role}) sudah login!`);
+      }
+
+      function handleLogout() {
+        currentUser = null;
+        document.getElementById("dashboardPage").classList.add("hidden");
+        document.getElementById("loginPage").classList.remove("hidden");
+        document.getElementById("passwordInput").value = "";
+        document.querySelectorAll(".team-btn").forEach(b => b.classList.remove("active"));
+      }
+
+      // Set Ikbal as default
+      window.addEventListener("load", () => {
+        const defaultBtn = document.querySelector('[data-user="ikbal"]');
+        if (defaultBtn) {
+          defaultBtn.click();
+        }
+      });
+    </script>
   </body>
 </html>

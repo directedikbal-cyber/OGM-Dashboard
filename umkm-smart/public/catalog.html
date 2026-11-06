@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Katalog Toko — UMKM SMART</title>
+<style>
+:root{--ac:#0d7a5f;--bg:#f4f6f5;--tx:#1c2321;--mut:#6b7772;--line:#e3e7e5}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx)}
+.wrap{max-width:960px;margin:auto;padding:16px}
+.head{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;display:flex;gap:14px;align-items:center}
+.head img{width:64px;height:64px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.head h1{margin:0;font-size:20px}.head p{margin:4px 0 0;color:var(--mut);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;height:150px;object-fit:cover;background:#eef2f0}
+.ph{width:100%;height:150px;display:grid;place-items:center;background:#eef2f0;color:var(--mut);font-size:34px}
+.card .b{padding:12px;flex:1;display:flex;flex-direction:column;gap:6px}
+.card h3{margin:0;font-size:14px}.desc{font-size:12px;color:var(--mut);margin:0;flex:1}
+.price{font-weight:700;color:var(--ac)}
+.tag{font-size:11px;background:#eef2f0;color:var(--mut);border-radius:999px;padding:2px 8px;align-self:flex-start}
+.wa{display:block;background:#25d366;color:#fff;text-decoration:none;text-align:center;padding:10px;border-radius:10px;font-size:14px;font-weight:600;margin-top:6px}
+.wa:hover{background:#1eb85a}
+.foot{text-align:center;color:var(--mut);font-size:12px;margin:22px 0}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:40px 0}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="head" id="head"></div>
+  <div class="grid" id="grid"></div>
+  <div class="foot">Dibuat dengan <b>UMKM SMART</b> · Katalog publik</div>
+</div>
+<script>
+const slug=decodeURIComponent(location.pathname.split('/toko/')[1]||'');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>'Rp'+Number(n||0).toLocaleString('id-ID');
+(async()=>{
+  const r=await fetch('/api/public/catalog/'+encodeURIComponent(slug));
+  if(!r.ok){document.getElementById('head').innerHTML='<h1>Usaha tidak ditemukan</h1>';return}
+  const {business:b,products}=await r.json();
+  document.title='Katalog '+b.name+' — UMKM SMART';
+  document.getElementById('head').innerHTML=`${b.logo_path?`<img src="${b.logo_path}">`:''}<div><h1>${esc(b.name)}</h1><p>${esc(b.description)}</p></div>`;
+  const wa=(p)=>{
+    const msg=p?`Halo ${esc(b.name)}, saya ingin memesan:\n• ${esc(p.name)}\n• Harga: ${fmt(p.price)}\n\nApakah masih tersedia?`:'';
+    return b.phone?`https://wa.me/${esc(b.phone)}?text=${encodeURIComponent(p?`Halo ${b.name}, saya ingin memesan:\n• ${p.name}\n• Harga: ${fmt(p.price)}\n\nApakah masih tersedia?`:`Halo ${b.name}`)}`:'#';
+  };
+  document.getElementById('grid').innerHTML=products.length?products.map(p=>`
+    <div class="card">
+      ${p.photo_path?`<img src="${p.photo_path}" alt="${esc(p.name)}">`:`<div class="ph">${p.type==='jasa'?'🛠':'📦'}</div>`}
+      <div class="b"><span class="tag">${p.type}</span><h3>${esc(p.name)}</h3>
+      <p class="desc">${esc(p.description)}</p><div class="price">${fmt(p.price)}</div>
+      <a class="wa" href="${wa(p)}" target="_blank">💬 Pesan via WhatsApp</a></div>
+    </div>`).join(''):'<div class="empty">Belum ada produk yang ditampilkan.</div>';
+})();
+</script>
+</body>
+</html>

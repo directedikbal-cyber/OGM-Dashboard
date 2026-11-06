@@ -1,0 +1,10 @@
+{
+  "name": "UMKM SMART",
+  "short_name": "UMKM SMART",
+  "description": "Business Management Platform untuk UMKM — MVP 1.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f6f5",
+  "theme_color": "#0d7a5f",
+  "icons": []
+}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UMKM SMART — Business Management Platform</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#0d7a5f">
+<style>
+:root{--bg:#f4f6f5;--card:#fff;--line:#e3e7e5;--tx:#1c2321;--mut:#6b7772;--ac:#0d7a5f;--ac2:#0a5c48;--red:#c0392b;--amber:#b7791f}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+button,input,select,textarea{font:inherit}
+.auth{max-width:420px;margin:8vh auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+h1{font-size:22px;margin:0 0 4px}h1 b{color:var(--ac)}.sub{color:var(--mut);font-size:13px}
+.fld{display:flex;flex-direction:column;gap:4px;margin:10px 0}.fld label{font-size:12px;color:var(--mut)}
+.fld input,.fld select,.fld textarea{border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff;width:100%}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:9px;padding:10px 16px;cursor:pointer;font-size:14px}
+.btn:hover{background:var(--ac2)}.btn.ghost{background:#fff;color:var(--tx);border:1px solid var(--line)}
+.btn.sm{padding:5px 10px;font-size:12px;border-radius:7px}
+.btn.danger{background:#fff;color:var(--red);border:1px solid #eccfc9}
+.app{display:grid;grid-template-columns:220px 1fr;gap:14px;max-width:1180px;margin:auto;padding:14px}
+aside{background:#0f1f1a;border-radius:14px;padding:16px 10px;display:flex;flex-direction:column;gap:4px;min-height:80vh}
+.logo{color:#fff;font-weight:700;font-size:16px;padding:4px 10px 14px}.logo b{background:var(--ac);border-radius:6px;padding:2px 7px;margin-right:6px}
+.nav{background:none;border:0;color:#cfe3dc;text-align:left;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:14px}
+.nav.on{background:var(--ac);color:#fff}.nav:hover:not(.on){background:#1b3129}.sp{flex:1}
+main{min-width:0}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi .t{font-size:12px;color:var(--mut)}.kpi .v{font-size:22px;font-weight:650;margin-top:3px}
+.v.pos{color:var(--ac)}.v.neg{color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card)}
+th{color:var(--mut);font-weight:500;text-align:left;font-size:12px}
+td,th{padding:9px 8px;border-bottom:1px solid var(--line)}
+.badge{font-size:11px;padding:3px 9px;border-radius:999px;background:#eef2f0}
+.badge.baru{background:#fdf3d7;color:var(--amber)}.badge.diproses{background:#dbeafe;color:#1d4ed8}
+.badge.dikirim{background:#e9d8fd;color:#6b21a8}.badge.selesai{background:#d3f4e5;color:var(--ac2)}.badge.dibatalkan{background:#fde2dd;color:var(--red)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.img{width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c2321;color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:9}.toast.on{opacity:1}
+.view{display:none}.view.on{display:block}
+.empty{color:var(--mut);font-size:13px;padding:12px 0}
+a{color:var(--ac)}
+@media(max-width:860px){.app{grid-template-columns:1fr}aside{flex-direction:row;overflow-x:auto;min-height:0}.logo,.sp{display:none}.nav{white-space:nowrap}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ===== AUTH ===== -->
+<div id="auth" class="auth">
+  <div class="card">
+    <h1><b>UMKM</b> SMART</h1>
+    <div class="sub">Business Management Platform · MVP 1.0</div>
+    <div class="row" style="margin:14px 0 4px">
+      <button class="btn sm" id="tabLogin">Masuk</button>
+      <button class="btn sm ghost" id="tabReg">Daftar</button>
+    </div>
+    <form id="fLogin">
+      <div class="fld"><label>Email</label><input name="email" type="email" required></div>
+      <div class="fld"><label>Password</label><input name="password" type="password" required></div>
+      <button class="btn" style="width:100%">Masuk</button>
+    </form>
+    <form id="fReg" style="display:none">
+      <div class="fld"><label>Nama usaha</label><input name="businessName" required placeholder="Contoh: Sambu Bu Tini"></div>
+      <div class="fld"><label>No. WhatsApp (kode negara, angka saja)</label><input name="businessPhone" placeholder="628123456789"></div>
+      <div class="fld"><label>Deskripsi singkat</label><textarea name="description" rows="2"></textarea></div>
+      <div class="fld"><label>Email</label><input name="email" type="email" required></div>
+      <div class="fld"><label>Password (min. 6)</label><input name="password" type="password" required minlength="6"></div>
+      <button class="btn" style="width:100%">Daftar &amp; Buat Usaha</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div class="app" id="app" style="display:none">
+  <aside>
+    <div class="logo"><b>U</b>UMKM SMART</div>
+    <button class="nav on" data-v="dash">▣ Dashboard</button>
+    <button class="nav" data-v="produk">🏷 Produk &amp; Jasa</button>
+    <button class="nav" data-v="pesanan">📦 Pesanan</button>
+    <button class="nav" data-v="keuangan">💰 Keuangan</button>
+    <button class="nav" data-v="pelanggan">👥 Pelanggan</button>
+    <button class="nav" data-v="toko">🌐 Toko Online</button>
+    <div class="sp"></div>
+    <button class="nav" data-v="profil">⚙ Profil Usaha</button>
+    <button class="nav" id="logout">⎋ Keluar</button>
+  </aside>
+  <main>
+    <header class="top"><div><h1 id="bizName">…</h1><div class="sub" id="bizSub"></div></div>
+      <div><span class="sub" id="who"></span></div></header>
+
+    <section class="view on" id="v-dash">
+      <div class="kpis" id="kpis"></div>
+      <div class="grid2">
+        <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Pesanan terbaru</h3><div id="dashOrders"></div></div>
+        <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Produk terlaris bulan ini</h3><div id="dashTop"></div></div>
+      </div>
+      <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Ekspor data (CSV)</h3>
+        <div class="row">
+          <button class="btn sm ghost" data-ex="produk">⬇ Produk</button>
+          <button class="btn sm ghost" data-ex="pesanan">⬇ Pesanan</button>
+          <button class="btn sm ghost" data-ex="pelanggan">⬇ Pelanggan</button>
+          <button class="btn sm ghost" data-ex="kas">⬇ Kas</button>
+        </div></div>
+    </section>
+
+    <section class="view" id="v-produk">
+      <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Tambah produk / jasa</h3>
+        <form id="fProd" class="row" style="margin:0">
+          <input name="name" placeholder="Nama" required style="flex:2;min-width:140px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <select name="type" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option value="produk">Produk</option><option value="jasa">Jasa</option></select>
+          <input name="price" type="number" min="0" placeholder="Harga" required style="flex:1;min-width:100px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <input name="photo" type="file" accept="image/*" style="font-size:12px">
+          <button class="btn sm">Simpan</button>
+        </form>
+      </div>
+      <div class="card" style="overflow-x:auto"><table><thead><tr><th></th><th>Nama</th><th>Jenis</th><th>Harga</th><th>Status</th><th></th></tr></thead><tbody id="prodRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-pesanan">
+      <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Catat pesanan</h3>
+        <form id="fOrder" class="row" style="margin:0">
+          <select name="customer_id" id="ordCust" style="padding:8px;border:1px solid var(--line);border-radius:8px"></select>
+          <select name="product_id" id="ordProd" style="padding:8px;border:1px solid var(--line);border-radius:8px"></select>
+          <input name="qty" type="number" min="1" value="1" style="width:70px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <input name="note" placeholder="Catatan" style="flex:1;min-width:120px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <label class="sub" style="display:flex;gap:4px;align-items:center"><input type="checkbox" name="createCash" checked> Catat kas masuk</label>
+          <button class="btn sm">Simpan</button>
+        </form>
+      </div>
+      <div class="card" style="overflow-x:auto"><table><thead><tr><th>#</th><th>Pelanggan</th><th>Produk</th><th>Qty</th><th>Total</th><th>Status</th><th>Tanggal</th><th></th></tr></thead><tbody id="ordRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-keuangan">
+      <div class="kpis" id="cashKpis"></div>
+      <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Catat transaksi</h3>
+        <form id="fCash" class="row" style="margin:0">
+          <select name="kind" style="padding:8px;border:1px solid var(--line);border-radius:8px"><option value="masuk">Kas Masuk</option><option value="keluar">Kas Keluar</option></select>
+          <input name="amount" type="number" min="1" placeholder="Nominal" required style="flex:1;min-width:110px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <input name="category" placeholder="Kategori (mis. bahan baku)" style="flex:1;min-width:130px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <input name="date" type="date" style="padding:8px;border:1px solid var(--line);border-radius:8px">
+          <button class="btn sm">Simpan</button>
+        </form>
+      </div>
+      <div class="card" style="overflow-x:auto"><table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Deskripsi</th><th>Nominal</th><th></th></tr></thead><tbody id="cashRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-pelanggan">
+      <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Tambah pelanggan</h3>
+        <form id="fCust" class="row" style="margin:0">
+          <input name="name" placeholder="Nama" required style="flex:1;min-width:130px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <input name="phone" placeholder="No. HP / WA" style="flex:1;min-width:120px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <input name="address" placeholder="Alamat" style="flex:1;min-width:120px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <button class="btn sm">Simpan</button>
+        </form>
+      </div>
+      <div class="card" style="overflow-x:auto"><table><thead><tr><th>Nama</th><th>Kontak</th><th>Pesanan</th><th>Total belanja</th><th></th></tr></thead><tbody id="custRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-toko">
+      <div class="card">
+        <h3 style="margin:0 0 8px;font-size:14px">Katalog publik kamu</h3>
+        <p class="sub">Bagikan URL ini ke pelanggan. Pelanggan membuka katalog lalu menekan tombol pesan yang langsung membuka WhatsApp kamu.</p>
+        <div class="row"><input id="pubUrl" readonly style="flex:1;padding:9px;border:1px solid var(--line);border-radius:9px"><button class="btn sm" id="copyUrl">Salin</button><a class="btn sm ghost" id="openUrl" target="_blank" style="text-decoration:none;display:inline-block">Buka</a></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-profil">
+      <div class="card"><h3 style="margin:0 0 10px;font-size:14px">Profil usaha</h3>
+        <form id="fBiz">
+          <div class="fld"><label>Nama usaha</label><input name="name"></div>
+          <div class="fld"><label>No. WhatsApp (angka, contoh 628123456789)</label><input name="phone"></div>
+          <div class="fld"><label>Deskripsi</label><textarea name="description" rows="3"></textarea></div>
+          <div class="fld"><label>Logo</label><input name="logo" type="file" accept="image/*"></div>
+          <button class="btn">Simpan profil</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let TOKEN=localStorage.getItem('umkm_token')||'', BIZ=null;
+const rp=window.location.origin;
+const fmt=n=>'Rp'+Number(n||0).toLocaleString('id-ID');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+async function api(path,opt={}){
+  const o={headers:{...(opt.headers||{})}};
+  if(TOKEN)o.headers.Authorization='Bearer '+TOKEN;
+  if(opt.body&&!(opt.body instanceof FormData)){o.method=o.method||'POST';o.headers['Content-Type']='application/json';o.body=JSON.stringify(opt.body)}
+  else if(opt.body instanceof FormData){o.method=o.method||'POST';o.body=opt.body}
+  const r=await fetch(path,o);
+  if(r.status===401&&path!=='/api/auth/login'){logout();throw new Error('Sesi berakhir')}
+  if(!r.ok)throw new Error((await r.json().catch(()=>({}))).error||'Terjadi kesalahan');
+  return r.json();
+}
+function logout(){localStorage.removeItem('umkm_token');TOKEN='';$('#app').style.display='none';$('#auth').style.display='block'}
+
+// ---- auth tabs ----
+$('#tabLogin').onclick=()=>{$('#fLogin').style.display='block';$('#fReg').style.display='none'};
+$('#tabReg').onclick=()=>{$('#fLogin').style.display='none';$('#fReg').style.display='block'};
+$('#fLogin').onsubmit=async e=>{e.preventDefault();try{const d=Object.fromEntries(new FormData(e.target));const r=await api('/api/auth/login',{body:d});TOKEN=r.token;localStorage.setItem('umkm_token',TOKEN);boot()}catch(x){toast(x.message)}};
+$('#fReg').onsubmit=async e=>{e.preventDefault();try{const d=Object.fromEntries(new FormData(e.target));const r=await api('/api/auth/register',{body:d});TOKEN=r.token;localStorage.setItem('umkm_token',TOKEN);boot()}catch(x){toast(x.message)}};
+$('#logout').onclick=logout;
+
+// ---- nav ----
+$$('.nav[data-v]').forEach(b=>b.onclick=()=>{$$('.nav').forEach(n=>n.classList.remove('on'));b.classList.add('on');$$('.view').forEach(v=>v.classList.remove('on'));$('#v-'+b.dataset.v).classList.add('on');refresh(b.dataset.v)});
+
+// ---- views ----
+async function refresh(v){try{
+  if(v==='dash')await loadDash();
+  if(v==='produk')await loadProducts();
+  if(v==='pesanan')await loadOrders();
+  if(v==='keuangan')await loadCash();
+  if(v==='pelanggan')await loadCustomers();
+  if(v==='toko'){const u=`${rp}/toko/${BIZ.slug}`;$('#pubUrl').value=u;$('#openUrl').href=u}
+  if(v==='profil'){const f=$('#fBiz');f.name.value=BIZ.name;f.phone.value=BIZ.phone;f.description.value=BIZ.description||''}
+}catch(e){toast(e.message)}}
+async function loadDash(){
+  const [rep,orders]=await Promise.all([api('/api/reports'),api('/api/orders')]);
+  $('#kpis').innerHTML=[
+    ['Omzet bulan ini',fmt(rep.pesanan.omzet),'pos'],['Pesanan bulan ini',rep.pesanan.total,''],
+    ['Kas masuk (hari ini)',fmt(rep.harian.masuk),'pos'],['Kas keluar (hari ini)',fmt(rep.harian.keluar),'neg'],
+    ['Saldo bulan ini',fmt(rep.bulanan.saldo),rep.bulanan.saldo>=0?'pos':'neg']
+  ].map(k=>`<div class="kpi"><div class="t">${k[0]}</div><div class="v ${k[2]}">${k[1]}</div></div>`).join('');
+  $('#dashOrders').innerHTML=orders.length?`<table>${orders.slice(0,6).map(o=>`<tr><td>#${o.id}</td><td>${esc(o.customer_name||'-')}</td><td>${esc(o.product_name||'-')}</td><td><span class="badge ${o.status}">${o.status}</span></td></tr>`).join('')}</table>`:'<div class="empty">Belum ada pesanan.</div>';
+  $('#dashTop').innerHTML=rep.topProduk.length?`<table>${rep.topProduk.map(p=>`<tr><td>${esc(p.name)}</td><td>${p.qty}×</td><td>${fmt(p.revenue)}</td></tr>`).join('')}</table>`:'<div class="empty">Belum ada penjualan bulan ini.</div>';
+}
+let PRODS=[],CUSTS=[];
+async function loadProducts(){
+  PRODS=await api('/api/products');
+  $('#prodRows').innerHTML=PRODS.map(p=>`<tr><td>${p.photo_path?`<img class="img" src="${p.photo_path}">`:''}</td><td>${esc(p.name)}</td><td>${p.type}</td><td>${fmt(p.price)}</td><td>${p.active?'<span class="badge selesai">aktif</span>':'<span class="badge">nonaktif</span>'}</td>
+  <td><button class="btn sm ghost" onclick="toggleProd(${p.id},${p.active?0:1})">${p.active?'Nonaktifkan':'Aktifkan'}</button> <button class="btn sm danger" onclick="delProd(${p.id})">Hapus</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Belum ada produk.</td></tr>';
+}
+window.toggleProd=async(id,active)=>{await api('/api/products/'+id,{method:'PUT',body:{active}});loadProducts()};
+window.delProd=async(id)=>{if(confirm('Hapus produk ini?')){await api('/api/products/'+id,{method:'DELETE'});toast('Produk dihapus');loadProducts()}};
+$('#fProd').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target);await api('/api/products',{body:fd});e.target.reset();toast('Produk tersimpan');loadProducts()};
+
+async function loadOrders(){
+  CUSTS=await api('/api/customers');
+  const orders=await api('/api/orders');
+  $('#ordCust').innerHTML='<option value="">Tanpa pelanggan</option>'+CUSTS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');
+  $('#ordProd').innerHTML='<option value="">Lainnya (isi manual via total)</option>'+PRODS.filter(p=>p.active).map(p=>`<option value="${p.id}">${esc(p.name)} · ${fmt(p.price)}</option>`).join('');
+  const sel=(s)=>['baru','diproses','dikirim','selesai','dibatalkan'].map(x=>`<option value="${x}" ${x===s?'selected':''}>${x}</option>`).join('');
+  $('#ordRows').innerHTML=orders.map(o=>`<tr><td>#${o.id}</td><td>${esc(o.customer_name||'-')} ${o.customer_phone?`<br><a href="https://wa.me/${esc(o.customer_phone)}" target="_blank" style="font-size:11px">WhatsApp</a>`:''}</td><td>${esc(o.product_name||'-')}</td><td>${o.qty}</td><td>${fmt(o.total)}</td>
+  <td><select onchange="setStatus(${o.id},this.value)" style="border:1px solid var(--line);border-radius:6px;padding:3px">${sel(o.status)}</select></td><td style="font-size:11px">${o.created_at}</td>
+  <td><button class="btn sm danger" onclick="delOrder(${o.id})">×</button></td></tr>`).join('')||'<tr><td colspan="8" class="empty">Belum ada pesanan.</td></tr>';
+}
+window.setStatus=async(id,status)=>{await api('/api/orders/'+id+'/status',{method:'PATCH',body:{status}});toast('Status diperbarui');loadOrders()};
+window.delOrder=async(id)=>{if(confirm('Hapus pesanan?')){await api('/api/orders/'+id,{method:'DELETE'});loadOrders()}};
+$('#fOrder').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));d.createCash=!!d.createCash;d.qty=+d.qty||1;if(!d.customer_id)delete d.customer_id;if(!d.product_id)delete d.product_id;await api('/api/orders',{body:d});e.target.reset();toast('Pesanan tersimpan');loadOrders()};
+
+async function loadCash(){
+  const [rows,rep]=await Promise.all([api('/api/cash'),api('/api/reports')]);
+  $('#cashKpis').innerHTML=[['Masuk bulan ini',fmt(rep.bulanan.masuk),'pos'],['Keluar bulan ini',fmt(rep.bulanan.keluar),'neg'],['Saldo bulan ini',fmt(rep.bulanan.saldo),rep.bulanan.saldo>=0?'pos':'neg']].map(k=>`<div class="kpi"><div class="t">${k[0]}</div><div class="v ${k[2]}">${k[1]}</div></div>`).join('');
+  $('#cashRows').innerHTML=rows.map(c=>`<tr><td>${c.date}</td><td>${c.kind==='masuk'?'⬆ Masuk':'⬇ Keluar'}</td><td>${esc(c.category)}</td><td>${esc(c.description)}</td><td style="color:${c.kind==='masuk'?'var(--ac)':'var(--red)'}">${fmt(c.amount)}</td><td><button class="btn sm danger" onclick="delCash(${c.id})">×</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">Belum ada transaksi.</td></tr>';
+}
+window.delCash=async(id)=>{if(confirm('Hapus transaksi?')){await api('/api/cash/'+id,{method:'DELETE'});loadCash()}};
+$('#fCash').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));d.amount=+d.amount;if(!d.date)delete d.date;await api('/api/cash',{body:d});e.target.reset();toast('Tercatat');loadCash()};
+
+async function loadCustomers(){
+  CUSTS=await api('/api/customers');
+  $('#custRows').innerHTML=CUSTS.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.phone)||'-'} ${c.phone?`<a href="https://wa.me/${esc(c.phone)}" target="_blank" style="font-size:11px">· chat</a>`:''}</td><td>${c.order_count}</td><td>${fmt(c.spent)}</td><td><button class="btn sm danger" onclick="delCust(${c.id})">×</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">Belum ada pelanggan.</td></tr>';
+}
+window.delCust=async(id)=>{if(confirm('Hapus pelanggan?')){await api('/api/customers/'+id,{method:'DELETE'});loadCustomers()}};
+$('#fCust').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));await api('/api/customers',{body:d});e.target.reset();toast('Pelanggan tersimpan');loadCustomers()};
+
+$('#copyUrl').onclick=()=>{navigator.clipboard.writeText($('#pubUrl').value);toast('URL disalin')};
+$$('[data-ex]').forEach(b=>b.onclick=async()=>{const r=await fetch('/api/export/'+b.dataset.ex,{headers:{Authorization:'Bearer '+TOKEN}});const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=b.dataset.ex+'.csv';a.click()});
+
+$('#fBiz').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target);await api('/api/business',{body:fd});toast('Profil tersimpan');boot()};
+
+async function boot(){
+  try{
+    const me=await api('/api/me');
+    if(!me.business){logout();return}
+    BIZ=me.business;TOKEN=TOKEN;
+    $('#auth').style.display='none';$('#app').style.display='grid';
+    $('#bizName').textContent=BIZ.name;
+    $('#bizSub').textContent=`${BIZ.description||''} ${BIZ.phone?'· WA: '+BIZ.phone:''}`;
+    $('#who').textContent=me.user.email||'';
+    await refresh(document.querySelector('.nav.on').dataset.v);
+  }catch(e){logout()}
+}
+if(TOKEN)boot();
+</script>
+</body>
+</html>
